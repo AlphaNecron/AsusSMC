@@ -14,7 +14,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: macos-13
+    runs-on: macos-latest
     env:
       JOB_TYPE: BUILD
     steps:
@@ -32,8 +32,8 @@ jobs:
       - name: AsusSMC Bootstrap
         run: |
           src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/hieplpvip/AsusSMC/master/Scripts/bootstrap.sh) && eval "$src" || exit 1
-      - run: xcodebuild -jobs 1 -configuration Debug
-      - run: xcodebuild -jobs 1 -configuration Release
+      - run: xcodebuild -jobs 1 -configuration Debug -arch x86_64 -arch ACID32
+      - run: xcodebuild -jobs 1 -configuration Release -arch x86_64 -arch ACID32
 
       - name: Upload to Artifacts
         uses: actions/upload-artifact@v3
