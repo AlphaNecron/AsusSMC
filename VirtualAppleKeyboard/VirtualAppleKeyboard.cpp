@@ -118,7 +118,7 @@ OSString *VirtualAppleKeyboard::newManufacturerString() const {
 }
 
 OSString *VirtualAppleKeyboard::newProductString() const {
-    return OSString::withCString("Virtual Apple Keyboard");
+    return OSString::withCString("AsusSMC-Keyboard");
 }
 
 OSNumber *VirtualAppleKeyboard::newVendorIDNumber() const {
@@ -126,7 +126,7 @@ OSNumber *VirtualAppleKeyboard::newVendorIDNumber() const {
 }
 
 OSNumber *VirtualAppleKeyboard::newProductIDNumber() const {
-    return OSNumber::withNumber(0x276, 32);
+    return OSNumber::withNumber(0x9999, 32);
 }
 
 OSNumber *VirtualAppleKeyboard::newLocationIDNumber() const {
