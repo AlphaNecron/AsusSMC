@@ -14,12 +14,12 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: macos-13
+    runs-on: macos-latest
     env:
       JOB_TYPE: BUILD
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: acidanthera/MacKernelSDK
           path: MacKernelSDK
@@ -32,11 +32,11 @@ jobs:
       - name: AsusSMC Bootstrap
         run: |
           src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/hieplpvip/AsusSMC/master/Scripts/bootstrap.sh) && eval "$src" || exit 1
-      - run: xcodebuild -jobs 1 -configuration Debug
-      - run: xcodebuild -jobs 1 -configuration Release
+      - run: xcodebuild -jobs 1 -configuration Debug -arch x86_64 -arch ACID32
+      - run: xcodebuild -jobs 1 -configuration Release -arch x86_64 -arch ACID32
 
       - name: Upload to Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: build/*/*.zip
@@ -55,8 +55,8 @@ jobs:
     env:
       JOB_TYPE: ANALYZE
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: acidanthera/MacKernelSDK
           path: MacKernelSDK
@@ -69,5 +69,5 @@ jobs:
       - name: AsusSMC Bootstrap
         run: |
           src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/hieplpvip/AsusSMC/master/Scripts/bootstrap.sh) && eval "$src" || exit 1
-      - run: xcodebuild analyze -quiet -scheme AsusSMC -configuration Debug CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
-      - run: xcodebuild analyze -quiet -scheme AsusSMC -configuration Release CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
+      - run: xcodebuild analyze -quiet -scheme AsusSMC -configuration Debug -arch x86_64 -arch ACID32 CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
+      - run: xcodebuild analyze -quiet -scheme AsusSMC -configuration Release -arch x86_64 -arch ACID32 CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
